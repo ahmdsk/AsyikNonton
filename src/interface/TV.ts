@@ -10,4 +10,5 @@ export interface ITVDetail {
   number_of_eps?: string;
   network?: string;
   artist?: string;
+  eps_links: (string | undefined)[];
 }

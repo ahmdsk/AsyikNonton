@@ -5,7 +5,7 @@ import {
 import * as cheerio from "cheerio";
 import SiteConfig from "@/lib/SiteConfig";
 import { NextResponse } from "next/server";
-import { IMovie, IMovieDetail } from "@/interface/Movie";
+import { IMovieDetail } from "@/interface/Movie";
 import { removeSeparator } from "@/lib/Helper";
 import { ITVDetail } from "@/interface/TV";
 import { IDownloadLinks } from "@/interface/Links";
@@ -75,6 +75,18 @@ export async function GET(
 
     const streaming_links = await getStreamingLinks(stream_links);
 
+    // get stream links
+    const eps_links_tv: any[] = [];
+
+    $(".gmr-listseries a").each((i, el) => {
+      if (i !== 0) {
+        let link = $(el).attr("href");
+        eps_links_tv.push({
+          tvId: link?.replace(baseURL, "")
+        });
+      }
+    });
+
     $("main#main").each((i: number, el: any) => {
       // Get data detail movie
       $(el)
@@ -121,6 +133,7 @@ export async function GET(
           number_of_eps: dataMovie.jumlah_episode ?? "",
           network: dataMovie.jaringan ?? "",
           artist: dataMovie.pemain ?? "",
+          eps_links: eps_links_tv
         });
       }
     });
