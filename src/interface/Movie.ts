@@ -1,3 +1,5 @@
+import { IDownloadLinks } from "./Links";
+
 export interface IMovie {
   title: string;
   movieId?: string | undefined;
@@ -23,4 +25,6 @@ export interface IMovieDetail {
   language?: string;
   director?: string;
   artist?: string;
+  download_links?: IDownloadLinks[];
+  streaming_links?: (string | undefined)[];
 }

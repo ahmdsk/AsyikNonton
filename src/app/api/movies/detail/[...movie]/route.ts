@@ -8,6 +8,7 @@ import { NextResponse } from "next/server";
 import { IMovie, IMovieDetail } from "@/interface/Movie";
 import { removeSeparator } from "@/lib/Helper";
 import { ITVDetail } from "@/interface/TV";
+import { IDownloadLinks } from "@/interface/Links";
 
 const baseURL = SiteConfig.scrapUrl;
 
@@ -46,7 +47,36 @@ export async function GET(
     const $ = cheerio.load(html);
     const dataMovie: DetailDataMovie = {};
 
+    // Get download links
+    const download = $("#download");
+    const download_links: IDownloadLinks[] = [];
+    download.each((i, el) => {
+      $(el)
+        .find("a.button.button-shadow")
+        .each((i, el) => {
+          download_links.push({
+            link: $(el).attr("href"),
+            text: $(el).text(),
+          });
+        });
+    });
+
+    // Get streaming links
+    const stream_links: string[] = [];
+    const num_of_stream_links = $("ul.muvipro-player-tabs li:last-child a")
+      .text()
+      .split(" ")
+      .at(-1);
+    if (num_of_stream_links) {
+      for (let i = 1; i <= parseInt(num_of_stream_links); i++) {
+        stream_links.push(`${url}/?player=${i}`);
+      }
+    }
+
+    const streaming_links = await getStreamingLinks(stream_links);
+
     $("main#main").each((i: number, el: any) => {
+      // Get data detail movie
       $(el)
         .find(".gmr-moviedata")
         .each((i, ec) => {
@@ -75,6 +105,8 @@ export async function GET(
           language: dataMovie.bahasa ?? "",
           director: dataMovie.direksi ?? "",
           artist: dataMovie.pemain ?? "",
+          download_links,
+          streaming_links
         });
       } else {
         tvDetail.push({
@@ -101,4 +133,20 @@ export async function GET(
 
     return NextResponse.json(responseErrorWithMessage());
   }
+}
+
+async function getStreamingLinks(stream_links: string[]) {
+  const streaming_links = [];
+
+  for (let i = 0; i < stream_links.length; i++) {
+    const rawResponse = await fetch(stream_links[i]);
+    const html = await rawResponse.text();
+
+    const $ = cheerio.load(html);
+    const stream_link = $(".gmr-embed-responsive > iframe").attr("src");
+
+    streaming_links.push(stream_link);
+  }
+
+  return streaming_links;
 }
