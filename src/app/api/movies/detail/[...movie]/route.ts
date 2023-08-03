@@ -148,7 +148,7 @@ export async function GET(
   }
 }
 
-async function getStreamingLinks(stream_links: string[]) {
+export async function getStreamingLinks(stream_links: string[]) {
   const streaming_links = [];
 
   for (let i = 0; i < stream_links.length; i++) {

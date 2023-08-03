@@ -6,6 +6,7 @@ import * as cheerio from "cheerio";
 import SiteConfig from "@/lib/SiteConfig";
 import { NextResponse } from "next/server";
 import { IDownloadLinks } from "@/interface/Links";
+import { getStreamingLinks } from "../../movies/detail/[...movie]/route";
 
 const baseURL = SiteConfig.scrapUrl;
 
@@ -70,20 +71,4 @@ export async function GET(
 
     return NextResponse.json(responseErrorWithMessage());
   }
-}
-
-async function getStreamingLinks(stream_links: string[]) {
-  const streaming_links = [];
-
-  for (let i = 0; i < stream_links.length; i++) {
-    const rawResponse = await fetch(stream_links[i]);
-    const html = await rawResponse.text();
-
-    const $ = cheerio.load(html);
-    const stream_link = $(".gmr-embed-responsive iframe").attr("src");
-
-    streaming_links.push(stream_link);
-  }
-
-  return streaming_links;
 }
