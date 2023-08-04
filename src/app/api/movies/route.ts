@@ -12,11 +12,16 @@ const baseURL = SiteConfig.scrapUrl;
 export async function GET(req: Request) {
   const params = new URL(req.url);
   const page = Number(params.searchParams.get("page")) || 1;
+  const category = params.searchParams.get("category") || "";
 
   let url = baseURL;
 
   if(page > 1) {
     url = `${baseURL}/page/${page}`;
+  }
+
+  if (category) {
+    url = `${baseURL}/Genre/${category}/page/${page}`;
   }
 
   const rawResponse = await fetch(url);
