@@ -9,6 +9,7 @@ export interface IMovie {
   quality: string;
   eps_now?: string;
   trailer?: string;
+  genre?: Array<string | undefined>;
 }
 
 export interface IMovieDetail {

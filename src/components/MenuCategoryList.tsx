@@ -24,7 +24,7 @@ export default function MenuCategoryList() {
         <ul
           className={`dropdown-content p-2 bg-base-100 ${
             categories.length > 0 ? "h-[200px] overflow-y-scroll" : ""
-          }`}
+          } z-10`}
         >
           {categories.length > 0 ? categories.map((category, index) => (
             <li key={index}>
