@@ -8,6 +8,7 @@ export interface IMovie {
   rating: string;
   quality: string;
   eps_now?: string;
+  trailer?: string;
 }
 
 export interface IMovieDetail {

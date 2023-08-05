@@ -2,6 +2,7 @@ import { responseErrorWithMessage } from "@/lib/Response";
 import SiteConfig from "@/lib/SiteConfig";
 import { NextResponse } from "next/server";
 import * as cheerio from "cheerio";
+import { ICategory } from "@/interface/Category";
 
 const baseURL = SiteConfig.scrapUrl;
 
@@ -12,10 +13,7 @@ export async function GET() {
   try {
     const $ = cheerio.load(html);
 
-    const categories: Array<{
-        name: string;
-        slug: string;
-    }> = [];
+    const categories: Array<ICategory> = [];
 
     $("select[name='genre'] option").each((i, el) => {
       categories.push({
