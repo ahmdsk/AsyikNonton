@@ -4,6 +4,7 @@ import Loading from "@/components/Loading";
 import TrailerModal from "@/components/TrailerModal";
 import { IMovie } from "@/interface/Movie";
 import SiteConfig from "@/lib/SiteConfig";
+import useLayoutStore from "@/store/LayoutStore";
 import { useEffect, useState } from "react";
 
 import { AiFillStar } from "react-icons/ai";
@@ -17,9 +18,10 @@ declare global {
 
 export default function Home() {
   const [movies, setMovies] = useState<Array<IMovie>>([]);
-  const [loading, setLoading] = useState<boolean>(true);
 
   const [movie, setMovie] = useState<IMovie>({} as IMovie);
+
+  const { search, loading, setLoading } = useLayoutStore((state) => state);
 
   const openTrailer = (movie: IMovie) => {
     setMovie(movie);
@@ -28,7 +30,7 @@ export default function Home() {
 
   useEffect(() => {
     const getMovies = async () => {
-      const res = await fetch(`${SiteConfig.apiURL}/movies`);
+      const res = await fetch(`${SiteConfig.apiURL}/search?q=${search}`);
       const { data } = await res.json();
 
       setMovies(data.movies);
@@ -36,7 +38,7 @@ export default function Home() {
     };
 
     getMovies();
-  }, []);
+  }, [search]);
 
   return (
     // Loading
@@ -45,7 +47,7 @@ export default function Home() {
     ) : (
       <div className="container mx-auto space-y-4">
         <h1 className="text-neutral text-2xl font-bold">
-          Film yang masih hangat...
+          {search != "" ? `Hasil pencarian untuk "${search}"` : "Film yang masih hangat..."}
         </h1>
         <div className="flex flex-wrap gap-3">
           {movies.length > 0 ? (
@@ -61,11 +63,13 @@ export default function Home() {
                     backgroundImage: `url(${movie.thumbnail_url})`,
                   }}
                 >
-                  <div className="flex justify-between items-center">
-                    <span className="text-slate-50 bg-black opacity-80 text-xs p-1 flex items-center gap-1">
-                      <AiFillStar />
-                      {movie.quality}
-                    </span>
+                  <div className={`flex ${movie.rating != "" ? "justify-between" : "justify-end"} items-center`}>
+                    {movie.rating != "" && (
+                      <span className="text-slate-50 bg-black opacity-80 text-xs p-1 flex items-center gap-1">
+                        <AiFillStar />
+                        {movie.rating}
+                      </span>
+                    )}
                     <span className="text-slate-50 bg-black opacity-80 text-xs p-1 flex items-center gap-1">
                       <BiTimeFive />
                       {movie.duration}

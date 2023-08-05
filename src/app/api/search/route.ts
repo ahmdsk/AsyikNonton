@@ -53,6 +53,8 @@ import {
           rating: $(e).find(".gmr-rating-item").text().trim(),
           quality: $(e).find(".gmr-quality-item > a").text() || "TV Show",
           eps_now: $(e).find(".gmr-numbeps").text(),
+          trailer: $(e).find(".gmr-popup-button > a.gmr-trailer-popup").attr("href") || "",
+          genre: $(e).find(".gmr-movie-on").text().split(", "),
         });
       });
   
