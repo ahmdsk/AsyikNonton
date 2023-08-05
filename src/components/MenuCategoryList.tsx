@@ -1,7 +1,10 @@
 "use client";
 import { ICategory } from "@/interface/Category";
 import SiteConfig from "@/lib/SiteConfig";
+import Link from "next/link";
 import { useEffect, useState } from "react";
+
+import { FiChevronDown } from "react-icons/fi";
 
 export default function MenuCategoryList() {
   const [categories, setCategories] = useState<Array<ICategory>>([]);
@@ -19,24 +22,27 @@ export default function MenuCategoryList() {
 
   return (
     <li>
-      <details className="dropdown dropdown-bottom dropdown-end">
-        <summary>Kategori</summary>
+      <div className="dropdown dropdown-bottom dropdown-end">
+        <label tabIndex={0} className="flex items-center gap-2">Kategori <FiChevronDown /></label>
         <ul
-          className={`dropdown-content p-2 bg-base-100 ${
+          tabIndex={0}
+          className={`dropdown-content shadow p-2 rounded-box bg-base-100 ${
             categories.length > 0 ? "h-[200px] overflow-y-scroll" : ""
-          } z-10`}
+          } z-[10]`}
         >
-          {categories.length > 0 ? categories.map((category, index) => (
-            <li key={index}>
-              <a>{category.name}</a>
-            </li>
-          )) : (
+          {categories.length > 0 ? (
+            categories.map((category, index) => (
+              <li key={index}>
+                <Link href={category.slug}>{category.name}</Link>
+              </li>
+            ))
+          ) : (
             <li>
-                <a>Tidak Ada Kategori</a>
+              <a>Tidak Ada Kategori</a>
             </li>
           )}
         </ul>
-      </details>
+      </div>
     </li>
   );
 }

@@ -14,7 +14,7 @@ export default function SearchBar() {
           </label>
           <ul
             tabIndex={0}
-            className="dropdown-content z-[1] bg-base-200 w-[280px] rounded-full"
+            className="dropdown-content z-[1] bg-base-200 w-[300px] rounded-full"
           >
             <li>
               <InputSearch btnColor="btn-neutral" />

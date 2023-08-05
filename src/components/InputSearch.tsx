@@ -7,11 +7,24 @@ interface IProps {
   btnColor?: string;
 }
 
+enum SearchType {
+  "reset",
+  "search"
+}
+
 export default function SearchBar({ btnColor }: IProps) {
   const { setSearch, setLoading } = useLayoutStore((state) => state);
   const [searchQuery, setSearchQuery] = useState<string>("");
 
-  const handleSearch = () => {
+  const handleAction = (type: SearchType) => {
+    if(type === SearchType.reset) {
+      setLoading(true);
+      setSearch("");
+      setSearchQuery("");
+
+      return;
+    }  
+
     setLoading(true);
     setSearch(searchQuery);
     setSearchQuery("");
@@ -28,7 +41,8 @@ export default function SearchBar({ btnColor }: IProps) {
         />
       </div>
       <div className="indicator">
-        <button className={`btn ${btnColor} join-item`} onClick={() => handleSearch()}>Cari</button>
+        <button className={`btn btn-error join-item`} onClick={() => handleAction(SearchType.reset)}>Reset</button>
+        <button className={`btn ${btnColor} join-item`} onClick={() => handleAction(SearchType.search)}>Cari</button>
       </div>
     </div>
   );
