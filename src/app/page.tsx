@@ -1,9 +1,9 @@
 "use client";
 
+import Loading from "@/components/Loading";
 import TrailerModal from "@/components/TrailerModal";
 import { IMovie } from "@/interface/Movie";
 import SiteConfig from "@/lib/SiteConfig";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import { AiFillStar } from "react-icons/ai";
@@ -32,22 +32,27 @@ export default function Home() {
       const { data } = await res.json();
 
       setMovies(data.movies);
+      setLoading(false);
     };
 
     getMovies();
   }, []);
 
   return (
-    <div className="container mx-auto space-y-4">
-      <h1 className="text-neutral text-2xl font-bold">
-        Film yang masih hangat...
-      </h1>
-      <div className="flex flex-wrap gap-3">
-        {movies.length > 0 ? (
-          movies.map((movie, index) => (
-            // <Link href={`/movie/${movie.movieId}`} key={index}>
+    // Loading
+    loading ? (
+      <Loading />
+    ) : (
+      <div className="container mx-auto space-y-4">
+        <h1 className="text-neutral text-2xl font-bold">
+          Film yang masih hangat...
+        </h1>
+        <div className="flex flex-wrap gap-3">
+          {movies.length > 0 ? (
+            movies.map((movie, index) => (
+              // <Link href={`/movie/${movie.movieId}`} key={index}>
               <div
-                className="rounded-md bg-black w-[180px] overflow-hidden"
+                className="rounded-md bg-black basis-[46%] sm:basis-[180px] overflow-hidden"
                 key={index}
               >
                 <div
@@ -107,18 +112,19 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-            // </Link>
-          ))
-        ) : (
-          <div className="text-center w-full">
-            <h1 className="text-neutral text-2xl font-bold">
-              Filmnya ngga ada
-            </h1>
-          </div>
-        )}
-      </div>
+              // </Link>
+            ))
+          ) : (
+            <div className="text-center w-full">
+              <h1 className="text-neutral text-2xl font-bold">
+                Filmnya ngga ada
+              </h1>
+            </div>
+          )}
+        </div>
 
-      <TrailerModal movie={movie} />
-    </div>
+        <TrailerModal movie={movie} />
+      </div>
+    )
   );
 }
