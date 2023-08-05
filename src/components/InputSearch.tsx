@@ -13,12 +13,13 @@ enum SearchType {
 }
 
 export default function SearchBar({ btnColor }: IProps) {
-  const { setSearch, setLoading } = useLayoutStore((state) => state);
+  const { setSearch, setLoading, setPageActive } = useLayoutStore((state) => state);
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   const handleAction = (type: SearchType) => {
     if(type === SearchType.reset) {
       setLoading(true);
+      setPageActive(1);
       setSearch("");
       setSearchQuery("");
 

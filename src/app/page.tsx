@@ -1,6 +1,7 @@
 "use client";
 
 import Loading from "@/components/Loading";
+import MoviePagination from "@/components/MoviePagination";
 import TrailerModal from "@/components/TrailerModal";
 import { IMovie } from "@/interface/Movie";
 import SiteConfig from "@/lib/SiteConfig";
@@ -17,11 +18,14 @@ declare global {
 }
 
 export default function Home() {
-  const [movies, setMovies] = useState<Array<IMovie>>([]);
+  const { search, loading, setLoading } = useLayoutStore((state) => state);
 
+  const [movies, setMovies] = useState<Array<IMovie>>([]);
+  // Modal Trailer
   const [movie, setMovie] = useState<IMovie>({} as IMovie);
 
-  const { search, loading, setLoading } = useLayoutStore((state) => state);
+  const { pageActive, setPageActive } = useLayoutStore((state) => state);
+  const [totalPage, setTotalPage] = useState<number>(1);
 
   const openTrailer = (movie: IMovie) => {
     setMovie(movie);
@@ -30,15 +34,17 @@ export default function Home() {
 
   useEffect(() => {
     const getMovies = async () => {
-      const res = await fetch(`${SiteConfig.apiURL}/movies?q=${search}`);
+      const res = await fetch(`${SiteConfig.apiURL}/movies?q=${search}&page=${pageActive}`);
       const { data } = await res.json();
 
       setMovies(data.movies);
+      setPageActive(data.page);
+      setTotalPage(data.lastPage);
       setLoading(false);
     };
 
     getMovies();
-  }, [search]);
+  }, [search, pageActive]);
 
   return (
     // Loading
@@ -47,7 +53,9 @@ export default function Home() {
     ) : (
       <div className="container mx-auto space-y-4">
         <h1 className="text-neutral text-2xl font-bold">
-          {search != "" ? `Hasil pencarian untuk "${search}"` : "Film yang masih hangat..."}
+          {search != ""
+            ? `Hasil pencarian untuk "${search}"`
+            : "Film yang masih hangat..."}
         </h1>
         <div className="flex flex-wrap gap-3">
           {movies.length > 0 ? (
@@ -63,7 +71,11 @@ export default function Home() {
                     backgroundImage: `url(${movie.thumbnail_url})`,
                   }}
                 >
-                  <div className={`flex ${movie.rating != "" ? "justify-between" : "justify-end"} items-center`}>
+                  <div
+                    className={`flex ${
+                      movie.rating != "" ? "justify-between" : "justify-end"
+                    } items-center`}
+                  >
                     {movie.rating != "" && (
                       <span className="text-slate-50 bg-black opacity-80 text-xs p-1 flex items-center gap-1">
                         <AiFillStar />
@@ -127,6 +139,12 @@ export default function Home() {
           )}
         </div>
 
+        {/* Pagination */}
+        {movies.length > 0 && (
+          <MoviePagination page={pageActive} totalPage={totalPage} />
+        )}
+
+        {/* Modal Trailer */}
         <TrailerModal movie={movie} />
       </div>
     )
