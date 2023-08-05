@@ -30,7 +30,7 @@ export default function Home() {
 
   useEffect(() => {
     const getMovies = async () => {
-      const res = await fetch(`${SiteConfig.apiURL}/search?q=${search}`);
+      const res = await fetch(`${SiteConfig.apiURL}/movies?q=${search}`);
       const { data } = await res.json();
 
       setMovies(data.movies);
@@ -54,7 +54,7 @@ export default function Home() {
             movies.map((movie, index) => (
               // <Link href={`/movie/${movie.movieId}`} key={index}>
               <div
-                className="rounded-md bg-black basis-[46%] sm:basis-[180px] overflow-hidden"
+                className="rounded-md bg-gradient-to-tl from-black to-zinc-700 basis-[46%] sm:basis-[180px] overflow-hidden"
                 key={index}
               >
                 <div

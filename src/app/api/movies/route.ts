@@ -13,11 +13,12 @@ export async function GET(req: Request) {
   const params = new URL(req.url);
   const page = Number(params.searchParams.get("page")) || 1;
   const category = params.searchParams.get("category") || "";
+  const query = params.searchParams.get("q") ?? "";
 
   let url = baseURL;
 
-  if(page > 1) {
-    url = `${baseURL}/page/${page}`;
+  if(page > 1 || query) {
+    url = `${baseURL}/page/${page}/?s=${query}&search=advanced`;
   }
 
   if (category) {
