@@ -1,4 +1,5 @@
 import NavbarDrawerLink from "./NavbarDrawerLink";
+import SearchBar from "./SearchBar";
 
 export default function SidebarMenuList() {
   return (

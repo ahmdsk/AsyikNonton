@@ -1,5 +1,6 @@
 import SiteConfig from "@/lib/SiteConfig";
 import NavbarDrawerLink from "./NavbarDrawerLink";
+import SearchBar from "./SearchBar";
 
 export default function NavbarDrawer() {
   return (
@@ -28,6 +29,7 @@ export default function NavbarDrawer() {
           <NavbarDrawerLink />
         </ul>
       </div>
+      <SearchBar />
     </div>
   );
 }
