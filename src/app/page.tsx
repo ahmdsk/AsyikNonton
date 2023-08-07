@@ -27,6 +27,8 @@ export default function Home() {
   const [totalPage, setTotalPage] = useState<number>(1);
 
   useEffect(() => {
+    setLoading(true);
+    
     const getMovies = async () => {
       const res = await fetch(`${SiteConfig.apiURL}/movies?q=${search}&page=${pageActive}`);
       const { data } = await res.json();
