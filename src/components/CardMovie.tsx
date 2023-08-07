@@ -1,5 +1,6 @@
 import { IMovie } from "@/interface/Movie";
 import useTrailerStore from "@/store/TrailerStore";
+import Link from "next/link";
 import { AiFillStar } from "react-icons/ai";
 import { BiTimeFive, BiMoviePlay } from "react-icons/bi";
 
@@ -54,7 +55,11 @@ export default function CardMovie({ movies }: { movies: Array<IMovie> }) {
       </div>
       <div className="space-y-3 p-3">
         <div className="h-[120px] space-y-2">
-          <h2 className="text-white text-sm font-bold">{movie.title}</h2>
+          <h2 className="text-white text-sm font-bold cursor-pointer">
+            <Link href={`detail/${movie.movieId?.replace("/", "")}` ?? "#"}>
+              {movie.title}
+            </Link>
+          </h2>
           <p className="text-slate-50 text-xs">
             {movie.genre?.map((genre, index) => (
               <span key={index}>{genre}, </span>
@@ -74,7 +79,9 @@ export default function CardMovie({ movies }: { movies: Array<IMovie> }) {
               <BiMoviePlay />
             </button>
           )}
-          <button className="btn btn-neutral btn-sm">Tonton</button>
+          <Link href={`detail/${movie.movieId?.replace("/", "")}` ?? "#"} className="btn btn-neutral btn-sm">
+            Tonton
+          </Link>
         </div>
       </div>
     </div>

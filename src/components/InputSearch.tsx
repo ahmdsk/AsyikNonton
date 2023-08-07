@@ -1,6 +1,6 @@
 "use client";
-import SiteConfig from "@/lib/SiteConfig";
 import useLayoutStore from "@/store/LayoutStore";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface IProps {
@@ -13,6 +13,8 @@ enum SearchType {
 }
 
 export default function SearchBar({ btnColor }: IProps) {
+  const router = useRouter();
+
   const { setSearch, setLoading, setPageActive } = useLayoutStore(
     (state) => state
   );
@@ -31,6 +33,7 @@ export default function SearchBar({ btnColor }: IProps) {
     setLoading(true);
     setSearch(searchQuery);
     setSearchQuery("");
+    router.push("/");
   };
 
   return (

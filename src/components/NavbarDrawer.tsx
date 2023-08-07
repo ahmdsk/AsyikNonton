@@ -4,7 +4,7 @@ import SearchBar from "./SearchBar";
 
 export default function NavbarDrawer() {
   return (
-    <div className="w-full navbar bg-base-300">
+    <div className="w-full navbar bg-neutral">
       <div className="flex-none lg:hidden">
         <label htmlFor="my-drawer-3" className="btn btn-square btn-ghost">
           <svg
@@ -22,7 +22,7 @@ export default function NavbarDrawer() {
           </svg>
         </label>
       </div>
-      <div className="flex-1 px-2 mx-2 font-medium">{SiteConfig.siteName}</div>
+      <div className="flex-1 px-2 mx-2 font-bold text-neutral-content">{SiteConfig.siteName}</div>
       <div className="flex-none hidden lg:block">
         <ul className="menu menu-horizontal">
           {/* Navbar menu content here */}

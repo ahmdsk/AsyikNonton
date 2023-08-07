@@ -7,7 +7,7 @@ export default function NavbarDrawerLink() {
     <>
       {Menu.map((item, index) => (
         <li key={index}>
-          <Link href={item.pathname ?? '#'}>{item.label}</Link>
+          <Link href={item.pathname ?? '#'} className="text-white hover:text-secondary">{item.label}</Link>
         </li>
       ))}
       <MenuCategoryList />
