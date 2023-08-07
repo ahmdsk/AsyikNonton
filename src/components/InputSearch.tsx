@@ -52,12 +52,14 @@ export default function SearchBar({ btnColor }: IProps) {
             Reset
           </button>
         </div>
-        <button
-          className={`btn ${btnColor} join-item`}
-          onClick={() => handleAction(SearchType.search)}
-        >
-          Cari
-        </button>
+        <div className="tooltip tooltip-left" data-tip="Cari Film Yang Ingin Kamu Tonton">
+          <button
+            className={`btn ${btnColor} join-item`}
+            onClick={() => handleAction(SearchType.search)}
+          >
+            Cari
+          </button>
+        </div>
       </div>
     </div>
   );
