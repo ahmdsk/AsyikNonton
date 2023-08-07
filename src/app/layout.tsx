@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import SidebarMenuList from "@/components/SidebarMenuList";
 import NavbarDrawer from "@/components/NavbarDrawer";
+import Footer from "@/components/Footer";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -11,7 +12,8 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   title: "AsyikNonton - Nonton Film Subtitle Indonesia",
-  description: "Nonton film subtitle Indonesia dengan kualitas HD secara gratis",
+  description:
+    "Nonton film subtitle Indonesia dengan kualitas HD secara gratis",
 };
 
 export default function RootLayout({
@@ -29,6 +31,7 @@ export default function RootLayout({
             {/* Page content here */}
 
             <div className="p-6 md:px-[100px]">{children}</div>
+            <Footer />
           </div>
           <SidebarMenuList />
         </div>

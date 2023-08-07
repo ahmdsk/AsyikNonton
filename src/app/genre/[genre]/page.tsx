@@ -16,29 +16,41 @@ declare global {
   }
 }
 
-export default function Home() {
-  const { search, loading, setLoading } = useLayoutStore((state) => state);
+export default function Genre({
+  params
+}: {
+  params: {
+    genre: string
+  }
+}) {
+  const genre = params.genre;
+  const { loading, setLoading } = useLayoutStore((state) => state);
 
   const [movies, setMovies] = useState<Array<IMovie>>([]);
+  
   // Modal Trailer
-  const { trailer } = useTrailerStore((state) => state);
+  const { trailer } = useTrailerStore((state) => state)
 
+  // Page Active
   const { pageActive, setPageActive } = useLayoutStore((state) => state);
   const [totalPage, setTotalPage] = useState<number>(1);
 
   useEffect(() => {
     const getMovies = async () => {
-      const res = await fetch(`${SiteConfig.apiURL}/movies?q=${search}&page=${pageActive}`);
-      const { data } = await res.json();
+      setLoading(true);
 
+      if(pageActive > totalPage) setPageActive(1);
+
+      const res = await fetch(`${SiteConfig.apiURL}/movies?page=${pageActive}&category=${genre}`);
+      const { data } = await res.json();
+      
       setMovies(data.movies);
-      setPageActive(data.page);
       setTotalPage(data.lastPage);
       setLoading(false);
     };
 
     getMovies();
-  }, [search, pageActive]);
+  }, [genre, pageActive]);
 
   return (
     // Loading
@@ -47,8 +59,8 @@ export default function Home() {
     ) : (
       <div className="container mx-auto space-y-4">
         <h1 className="text-neutral text-2xl font-bold">
-          {search != ""
-            ? `Hasil pencarian untuk "${search}"`
+          {genre != ""
+            ? `Menampilkan genre dari "${genre}"`
             : "Film yang masih hangat..."}
         </h1>
         <div className="flex flex-wrap gap-3">

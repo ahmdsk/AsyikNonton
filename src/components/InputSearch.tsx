@@ -9,22 +9,24 @@ interface IProps {
 
 enum SearchType {
   "reset",
-  "search"
+  "search",
 }
 
 export default function SearchBar({ btnColor }: IProps) {
-  const { setSearch, setLoading, setPageActive } = useLayoutStore((state) => state);
+  const { setSearch, setLoading, setPageActive } = useLayoutStore(
+    (state) => state
+  );
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   const handleAction = (type: SearchType) => {
-    if(type === SearchType.reset) {
+    if (type === SearchType.reset) {
       setLoading(true);
       setPageActive(1);
       setSearch("");
       setSearchQuery("");
 
       return;
-    }  
+    }
 
     setLoading(true);
     setSearch(searchQuery);
@@ -42,8 +44,20 @@ export default function SearchBar({ btnColor }: IProps) {
         />
       </div>
       <div className="indicator">
-        <button className={`btn btn-error join-item`} onClick={() => handleAction(SearchType.reset)}>Reset</button>
-        <button className={`btn ${btnColor} join-item`} onClick={() => handleAction(SearchType.search)}>Cari</button>
+        <div className="tooltip tooltip-bottom" data-tip="Reset Pencarian Film">
+          <button
+            className={`btn btn-error join-item`}
+            onClick={() => handleAction(SearchType.reset)}
+          >
+            Reset
+          </button>
+        </div>
+        <button
+          className={`btn ${btnColor} join-item`}
+          onClick={() => handleAction(SearchType.search)}
+        >
+          Cari
+        </button>
       </div>
     </div>
   );

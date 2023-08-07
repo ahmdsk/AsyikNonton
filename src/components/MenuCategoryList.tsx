@@ -33,7 +33,7 @@ export default function MenuCategoryList() {
           {categories.length > 0 ? (
             categories.map((category, index) => (
               <li key={index}>
-                <Link href={category.slug}>{category.name}</Link>
+                <Link href={`/genre/${category.slug}`}>{category.name}</Link>
               </li>
             ))
           ) : (
