@@ -8,43 +8,53 @@ interface IProps {
 }
 
 export default function DownloadLinks({ movie, series }: IProps) {
-  return (
-    movie != null ? (
-      <div className="card w-full bg-neutral text-neutral-content">
-        <div className="card-body space-y-2">
-          <h2 className="card-title">Download {movie?.title}</h2>
-          <div className="card-actions">
-            {movie?.download_links?.map((link, index) => (
-              <Link
-                href={link.link ?? "#"}
-                target="_blank"
-                className="btn btn-xs md:btn-sm"
-                key={index}
-              >
-                {link.text}
-              </Link>
-            ))}
-          </div>
+  return movie != null ? (
+    <div className="card w-full bg-neutral text-neutral-content">
+      <div className="card-body space-y-2">
+        <h2 className="card-title">Download {movie?.title}</h2>
+        <div className="card-actions">
+          {movie?.download_links?.length === 0 && (
+            <h1 className="font-semibold text-center text-neutral-content">
+              Link Download Belum Tersedia...
+            </h1>
+          )}
+
+          {movie?.download_links?.map((link, index) => (
+            <Link
+              href={link.link ?? "#"}
+              target="_blank"
+              className="btn btn-xs md:btn-sm"
+              key={index}
+            >
+              {link.text}
+            </Link>
+          ))}
         </div>
       </div>
-    ) : (
-      <div className="card w-full bg-neutral text-neutral-content">
-        <div className="card-body space-y-2">
-          <h2 className="card-title">Download {series?.title}</h2>
-          <div className="card-actions">
-            {series?.download_links?.map((link, index) => (
-              <Link
-                href={link.link ?? "#"}
-                target="_blank"
-                className="btn btn-xs md:btn-sm"
-                key={index}
-              >
-                {link.text}
-              </Link>
-            ))}
-          </div>
+    </div>
+  ) : (
+    <div className="card w-full bg-neutral text-neutral-content">
+      <div className="card-body space-y-2">
+        <h2 className="card-title">Download {series?.title}</h2>
+        <div className="card-actions">
+          {series?.download_links?.length === 0 && (
+            <h1 className="font-semibold text-center text-neutral-content">
+              Link Download Belum Tersedia...
+            </h1>
+          )}
+
+          {series?.download_links?.map((link, index) => (
+            <Link
+              href={link.link ?? "#"}
+              target="_blank"
+              className="btn btn-xs md:btn-sm"
+              key={index}
+            >
+              {link.text}
+            </Link>
+          ))}
         </div>
       </div>
-    )
+    </div>
   );
 }
