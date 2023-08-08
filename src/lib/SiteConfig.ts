@@ -1,4 +1,4 @@
-const siteUrl = "http://localhost:3000"
+const siteUrl = "https://asyik-nonton.vercel.app"
 
 const SiteConfig = {
     siteURl: siteUrl,
