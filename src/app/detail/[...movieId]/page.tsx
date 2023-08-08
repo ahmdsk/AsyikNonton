@@ -41,14 +41,14 @@ export default function Detail({
       const res = await fetch(url);
       const { data } = await res.json();
 
-      if (movieId.length == 1) {
-        setTypeMovie("movie");
-        setMovie(data);
-        setLinkStreamActive(data?.streaming_links[1] ?? "#");
-      } else {
+      if (movieId.length > 1) {
         setTypeMovie("series");
         setTV(data);
         setLinkStreamActive(data?.trailer);
+      } else {
+        setTypeMovie("movie");
+        setMovie(data);
+        setLinkStreamActive(data?.streaming_links[1] ?? "#");
       }
       setLoading(false);
     };
