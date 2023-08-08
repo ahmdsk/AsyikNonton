@@ -44,7 +44,7 @@ export default function Detail({
       if (movieId.length == 1) {
         setTypeMovie("movie");
         setMovie(data);
-        setLinkStreamActive(data?.streaming_links[1]);
+        setLinkStreamActive(data?.streaming_links[1] ?? "#");
       } else {
         setTypeMovie("series");
         setTV(data);
