@@ -8,9 +8,9 @@ export default function Footer() {
           <div className="mb-6 md:mb-0">
             <a href="#" className="flex items-center">
               <img
-                src="https://flowbite.com/docs/images/logo.svg"
+                src="/logo.svg"
                 className="h-8 mr-3"
-                alt="FlowBite Logo"
+                alt="Logo"
               />
               <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
                 {SiteConfig.siteName}
@@ -31,12 +31,12 @@ export default function Footer() {
                     {SiteConfig.siteName}
                   </a>
                 </li>
-                <li>
+                <li className="mb-4">
                   <a
-                    href="https://tailwindcss.com/"
-                    className="hover:underline"
+                    href={SiteConfig.socials.repo ?? "#"}
+                    className="hover:underline "
                   >
-                    Tailwind CSS
+                    This Repo
                   </a>
                 </li>
               </ul>
@@ -48,7 +48,7 @@ export default function Footer() {
               <ul className="text-gray-500 dark:text-gray-400 font-medium">
                 <li className="mb-4">
                   <a
-                    href="https://github.com/themesberg/flowbite"
+                    href={SiteConfig.socials.github ?? "#"}
                     className="hover:underline "
                   >
                     Github
@@ -56,10 +56,10 @@ export default function Footer() {
                 </li>
                 <li>
                   <a
-                    href="https://discord.gg/4eeurUVvTy"
+                    href={SiteConfig.socials.telegram ?? "#"}
                     className="hover:underline"
                   >
-                    Discord
+                    Telegram
                   </a>
                 </li>
               </ul>
