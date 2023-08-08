@@ -1,6 +1,7 @@
 import SiteConfig from "@/lib/SiteConfig";
 import NavbarDrawerLink from "./NavbarDrawerLink";
 import SearchBar from "./SearchBar";
+import Link from "next/link";
 
 export default function NavbarDrawer() {
   return (
@@ -22,7 +23,9 @@ export default function NavbarDrawer() {
           </svg>
         </label>
       </div>
-      <div className="flex-1 px-2 mx-2 font-bold">{SiteConfig.siteName}</div>
+      <div className="flex-1 px-2 mx-2 font-bold">
+        <Link href={SiteConfig.siteURl}>{SiteConfig.siteName}</Link>
+      </div>
       <div className="flex-none hidden lg:block">
         <ul className="menu menu-horizontal">
           {/* Navbar menu content here */}
