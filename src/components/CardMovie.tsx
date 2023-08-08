@@ -13,7 +13,6 @@ export default function CardMovie({ movies }: { movies: Array<IMovie> }) {
   };
 
   return movies.map((movie, index) => (
-    // <Link href={`/movie/${movie.movieId}`} key={index}>
     <div
       className="rounded-md bg-gradient-to-tl from-black to-zinc-700 basis-[46%] sm:basis-[180px] overflow-hidden"
       key={index}
@@ -35,10 +34,12 @@ export default function CardMovie({ movies }: { movies: Array<IMovie> }) {
               {movie.rating}
             </span>
           )}
-          <span className="text-slate-50 bg-black opacity-80 text-xs p-1 flex items-center gap-1">
-            <BiTimeFive />
-            {movie.duration}
-          </span>
+          {movie.duration != "" && (
+            <span className="text-slate-50 bg-black opacity-80 text-xs p-1 flex items-center gap-1">
+              <BiTimeFive />
+              {movie.duration}
+            </span>
+          )}
         </div>
         {movie.eps_now && (
           <span className="text-neutral bg-primary text-xs font-medium p-1 absolute bottom-0 right-0 rounded-s-sm">
@@ -79,12 +80,14 @@ export default function CardMovie({ movies }: { movies: Array<IMovie> }) {
               <BiMoviePlay />
             </button>
           )}
-          <Link href={`detail/${movie.movieId?.replace("/", "")}` ?? "#"} className="btn btn-neutral btn-sm">
+          <Link
+            href={`detail/${movie.movieId?.replace("/", "")}` ?? "#"}
+            className="btn btn-neutral btn-sm"
+          >
             Tonton
           </Link>
         </div>
       </div>
     </div>
-    // </Link>
   ));
 }

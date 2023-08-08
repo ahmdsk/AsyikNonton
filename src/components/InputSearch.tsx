@@ -40,7 +40,7 @@ export default function SearchBar({ btnColor }: IProps) {
     <div className="join">
       <div>
         <input
-          className="input join-item w-full md:w-[280px]"
+          className="input join-item w-full md:w-[280px] text-zinc-800"
           placeholder="Cari..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}

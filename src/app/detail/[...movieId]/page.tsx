@@ -7,6 +7,8 @@ import useLayoutStore from "@/store/LayoutStore";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
+export const runtime = "edge";
+
 export default function Detail({
   params,
 }: {
@@ -33,7 +35,7 @@ export default function Detail({
       const { data } = await res.json();
 
       setMovie(data);
-      setLinkStreamActive(data?.streaming_links[0]);
+      setLinkStreamActive(data?.streaming_links[1]);
       setLoading(false);
     };
 
@@ -51,7 +53,7 @@ export default function Detail({
       <div className="md:w-[800px] space-y-3">
         <div className="card w-full bg-neutral text-neutral-content">
           <div className="card-body space-y-2">
-            <iframe src={linkStreamActive ?? "#"} className="w-full h-[300px] rounded-md" allowFullScreen />
+            <iframe src={linkStreamActive ?? "#"} className="w-full h-[300px] rounded-md" allowFullScreen referrerPolicy="same-origin" />
             <div className="card-actions">
               {movie?.streaming_links?.map((link, index) => (
                 <button className="btn btn-xs md:btn-sm" key={index} onClick={() => changeStreamLink(link)}>

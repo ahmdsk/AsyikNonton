@@ -23,7 +23,7 @@ export default function MenuCategoryList() {
   return (
     <li>
       <div className="dropdown dropdown-bottom dropdown-end">
-        <label tabIndex={0} className="flex items-center gap-2 text-white hover:text-secondary">Kategori <FiChevronDown /></label>
+        <label tabIndex={0} className="flex items-center gap-2 text-neutral-content hover:text-secondary">Kategori <FiChevronDown /></label>
         <ul
           tabIndex={0}
           className={`dropdown-content shadow p-2 rounded-box bg-base-100 ${
@@ -33,7 +33,7 @@ export default function MenuCategoryList() {
           {categories.length > 0 ? (
             categories.map((category, index) => (
               <li key={index}>
-                <Link href={`/genre/${category.slug}`}>{category.name}</Link>
+                <Link href={`/genre/${category.slug}`} className="text-zinc-800">{category.name}</Link>
               </li>
             ))
           ) : (
