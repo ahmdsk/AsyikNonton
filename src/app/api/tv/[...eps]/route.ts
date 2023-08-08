@@ -60,9 +60,24 @@ export async function GET(
 
     const streaming_links = await getStreamingLinks(stream_links);
 
+    // Get Other Eps
+    const eps_links: any[] = [];
+
+    $(".gmr-listseries a").each((i, el) => {
+      if (i !== 0) {
+        let link = $(el).attr("href");
+        eps_links.push({
+          title: $(el).text(),
+          tvId: link?.replace(baseURL, "")
+        });
+      }
+    });
+
     const data = {
-      download_links,
+      title: $("h1.entry-title").text(),
       streaming_links,
+      eps_links,
+      download_links,
     };
 
     return NextResponse.json(responseSuccessWithData(data));

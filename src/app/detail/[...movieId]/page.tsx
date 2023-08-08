@@ -1,7 +1,10 @@
 "use client";
 
+import DetailMovie from "@/components/DetailMovie";
+import DownloadLinks from "@/components/DownloadLinks";
 import Loading from "@/components/Loading";
 import { IMovieDetail } from "@/interface/Movie";
+import { ITVDetail } from "@/interface/TV";
 import SiteConfig from "@/lib/SiteConfig";
 import useLayoutStore from "@/store/LayoutStore";
 import Link from "next/link";
@@ -24,6 +27,10 @@ export default function Detail({
   }
 
   const [movie, setMovie] = useState<IMovieDetail>();
+  const [tv, setTV] = useState<ITVDetail>();
+
+  const [typeMovie, setTypeMovie] = useState<"movie" | "series">("movie");
+
   const { loading, setLoading } = useLayoutStore((state) => state);
 
   const [linkStreamActive, setLinkStreamActive] = useState<string>("");
@@ -34,8 +41,15 @@ export default function Detail({
       const res = await fetch(url);
       const { data } = await res.json();
 
-      setMovie(data);
-      setLinkStreamActive(data?.streaming_links[1]);
+      if (movieId.length == 1) {
+        setTypeMovie("movie");
+        setMovie(data);
+        setLinkStreamActive(data?.streaming_links[1]);
+      } else {
+        setTypeMovie("series");
+        setTV(data);
+        setLinkStreamActive(data?.trailer);
+      }
       setLoading(false);
     };
 
@@ -44,7 +58,7 @@ export default function Detail({
 
   const changeStreamLink = (link: string | undefined) => {
     setLinkStreamActive(link ?? "#");
-  }
+  };
 
   return loading ? (
     <Loading />
@@ -53,90 +67,57 @@ export default function Detail({
       <div className="md:w-[800px] space-y-3">
         <div className="card w-full bg-neutral text-neutral-content">
           <div className="card-body space-y-2">
-            <iframe src={linkStreamActive ?? "#"} className="w-full h-[300px] rounded-md" allowFullScreen referrerPolicy="same-origin" />
+            <iframe
+              src={linkStreamActive ?? "#"}
+              className="w-full h-[300px] rounded-md"
+              allowFullScreen
+              referrerPolicy="same-origin"
+            />
             <div className="card-actions">
-              {movie?.streaming_links?.map((link, index) => (
-                <button className="btn btn-xs md:btn-sm" key={index} onClick={() => changeStreamLink(link)}>
-                  Server {index+1}
-                </button>
-              ))}
+              {typeMovie == "movie" ? (
+                movie?.streaming_links?.map((link, index) => (
+                  <button
+                    className="btn btn-xs md:btn-sm"
+                    key={index}
+                    onClick={() => changeStreamLink(link)}
+                  >
+                    Server {index + 1}
+                  </button>
+                ))
+              ) : (
+                <>
+                  <button className="btn btn-success btn-xs md:btn-sm">Pilih Episode</button>
+                  {tv?.eps_links?.map((link, index) => (
+                    <Link
+                      href={`/series/${link.tvId?.replace("/", "")}` ?? "#"}
+                      className="btn btn-xs md:btn-sm"
+                      key={index}
+                    >
+                      {link.title}
+                    </Link>
+                  ))}
+                </>
+              )}
             </div>
           </div>
         </div>
 
-        <h1 className="text-2xl font-bold">{movie?.title}</h1>
-        <p className="text-gray-500">{movie?.description}</p>
+        <h1 className="text-2xl font-bold">
+          {typeMovie == "movie" ? movie?.title : tv?.title}
+        </h1>
+        <p className="text-gray-500">
+          {typeMovie == "movie" ? movie?.description : tv?.description}
+        </p>
         <div className="divider"></div>
-        <div className="">
-          <ul className="list-none">
-            <li>
-              <span className="font-bold text-neutral">Diposting Pada : </span>{" "}
-              {movie?.created_at != "" ? movie?.created_at : "-"}
-            </li>
-            <li>
-              <span className="font-bold text-neutral">Tagline : </span>{" "}
-              {movie?.tagline != "" ? movie?.tagline : "-"}
-            </li>
-            <li>
-              <span className="font-bold text-neutral">Rating : </span>{" "}
-              {movie?.rating != "" ? movie?.rating : "-"}
-            </li>
-            <li>
-              <span className="font-bold text-neutral">Genre : </span>{" "}
-              {movie?.genre != "" ? movie?.genre : "-"}
-            </li>
-            <li>
-              <span className="font-bold text-neutral">Kualitas : </span>{" "}
-              {movie?.quality != "" ? movie?.quality : "-"}
-            </li>
-            <li>
-              <span className="font-bold text-neutral">Tahun : </span>{" "}
-              {movie?.year != "" ? movie?.year : "-"}
-            </li>
-            <li>
-              <span className="font-bold text-neutral">Durasi : </span>{" "}
-              {movie?.duration != "" ? movie?.duration : "-"}
-            </li>
-            <li>
-              <span className="font-bold text-neutral">Rilis : </span>{" "}
-              {movie?.realease != "" ? movie?.realease : "-"}
-            </li>
-            <li>
-              <span className="font-bold text-neutral">Negara : </span>{" "}
-              {movie?.country != "" ? movie?.country : "-"}
-            </li>
-            <li>
-              <span className="font-bold text-neutral">Bahasa : </span>{" "}
-              {movie?.language != "" ? movie?.language : "-"}
-            </li>
-            <li>
-              <span className="font-bold text-neutral">Direksi : </span>{" "}
-              {movie?.director != "" ? movie?.director : "-"}
-            </li>
-            <li>
-              <span className="font-bold text-neutral">Pemain : </span>{" "}
-              {movie?.artist != "" ? movie?.artist : "-"}
-            </li>
-          </ul>
-        </div>
+        {typeMovie == "movie" ? (
+          <DetailMovie movie={movie ?? ({} as IMovieDetail)} type={typeMovie} />
+        ) : (
+          <DetailMovie tv={tv ?? ({} as ITVDetail)} type={typeMovie} />
+        )}
         <div className="divider"></div>
-        <div className="card w-full bg-neutral text-neutral-content">
-          <div className="card-body space-y-2">
-            <h2 className="card-title">Download {movie?.title}</h2>
-            <div className="card-actions">
-              {movie?.download_links?.map((link, index) => (
-                <Link
-                  href={link.link ?? "#"}
-                  target="_blank"
-                  className="btn btn-xs md:btn-sm"
-                  key={index}
-                >
-                  {link.text}
-                </Link>
-              ))}
-            </div>
-          </div>
-        </div>
+        {typeMovie == "movie" && (
+          <DownloadLinks movie={movie ?? ({} as IMovieDetail)} />
+        )}
       </div>
     </div>
   );

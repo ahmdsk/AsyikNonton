@@ -82,6 +82,7 @@ export async function GET(
       if (i !== 0) {
         let link = $(el).attr("href");
         eps_links_tv.push({
+          title: $(el).text(),
           tvId: link?.replace(baseURL, "")
         });
       }
@@ -123,6 +124,7 @@ export async function GET(
       } else {
         tvDetail.push({
           title: $(el).find("h1.entry-title").text(),
+          trailer: $(el).find(".gmr-embed-responsive iframe").attr("src"),
           description: $(el).find("div.entry-content p").text(),
           created_at: dataMovie.diposting_pada ?? "",
           genre: dataMovie.genre ?? "",
