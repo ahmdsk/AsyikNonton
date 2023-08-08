@@ -10,8 +10,6 @@ import useLayoutStore from "@/store/LayoutStore";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-export const runtime = "edge";
-
 export default function Detail({
   params,
 }: {
