@@ -10,6 +10,8 @@ git clone https://github.com/ahmdsk/AsyikNonton
 cd AsyikNonton
 npm install
 npm run dev
+
+note: edit SiteConfig.ts pada var siteUrl dengan hostname dan port kamu
 ```
 maka website akan berjalan di komputer kamu dengan alamat url `localhost:3000`.
 
