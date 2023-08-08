@@ -110,9 +110,9 @@ export default function Detail({
         </p>
         <div className="divider"></div>
         {typeMovie == "movie" ? (
-          <DetailMovie movie={movie ?? ({} as IMovieDetail)} type={typeMovie} />
+          <DetailMovie movie={movie ?? ({} as IMovieDetail)} type="movie" />
         ) : (
-          <DetailMovie tv={tv ?? ({} as ITVDetail)} type={typeMovie} />
+          <DetailMovie tv={tv ?? ({} as ITVDetail)} type="series" />
         )}
         <div className="divider"></div>
         {typeMovie == "movie" && (
