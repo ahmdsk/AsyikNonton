@@ -1,5 +1,8 @@
+"use client";
+import { useState } from "react";
 import { IMovieDetail } from "@/interface/Movie";
 import { ISeriesDetail } from "@/interface/TV";
+import { HiDownload } from "react-icons/hi";
 import Link from "next/link";
 
 interface IProps {
@@ -8,52 +11,69 @@ interface IProps {
 }
 
 export default function DownloadLinks({ movie, series }: IProps) {
-  return movie != null ? (
+  const [showDownloadButtons, setShowDownloadButtons] = useState(false);
+
+  const toggleDownloadButtons = () => {
+    setShowDownloadButtons(!showDownloadButtons);
+  };
+
+  return (
     <div className="card w-full bg-neutral text-neutral-content">
       <div className="card-body space-y-2">
-        <h2 className="card-title">Download {movie?.title}</h2>
-        <div className="card-actions">
-          {movie?.download_links?.length === 0 && (
-            <h1 className="font-semibold text-center text-neutral-content">
-              Link Download Belum Tersedia...
-            </h1>
-          )}
-
-          {movie?.download_links?.map((link, index) => (
-            <Link
-              href={link.link ?? "#"}
-              target="_blank"
-              className="btn btn-xs md:btn-sm"
-              key={index}
+        <h2 className="card-title">Download {movie?.title ?? series?.title}</h2>
+        {showDownloadButtons ? (
+          <>
+            {movie?.download_links?.length === 0 && series?.download_links?.length === 0 ? (
+              <h1 className="font-semibold text-center text-neutral-content">
+                Link Download Belum Tersedia...
+              </h1>
+            ) : (
+              <>
+                <div className="flex flex-wrap justify-center">
+                  {movie?.download_links?.map((link, index) => (
+                    <Link
+                      key={index}
+                      href={link.link ?? "#"}
+                      target="_blank"
+                      className="btn btn-primary btn-xs md:btn-sm mx-1 my-1"
+                      style={{ backgroundColor: "white", color: "black" }}
+                    >
+                      <HiDownload className="mr-1" /> {link.text}
+                    </Link>
+                  ))}
+                  {series?.download_links?.map((link, index) => (
+                    <Link
+                      key={index}
+                      href={link.link ?? "#"}
+                      target="_blank"
+                      className="btn btn-primary btn-xs md:btn-sm mx-1 my-1"
+                      style={{ backgroundColor: "white", color: "black" }}
+                    >
+                      <HiDownload className="mr-1" /> {link.text}
+                    </Link>
+                  ))}
+                </div>
+                <div className="flex flex-wrap justify-center">
+                  <button
+                    onClick={toggleDownloadButtons}
+                    className="btn btn-primary btn-xs md:btn-sm mx-1 my-1"
+                  >
+                    Tutup
+                  </button>
+                </div>
+              </>
+            )}
+          </>
+        ) : (
+          <div className="flex flex-wrap justify-center">
+            <button
+              onClick={toggleDownloadButtons}
+              className="btn btn-primary btn-xs md:btn-sm mx-1 my-1"
             >
-              {link.text}
-            </Link>
-          ))}
-        </div>
-      </div>
-    </div>
-  ) : (
-    <div className="card w-full bg-neutral text-neutral-content">
-      <div className="card-body space-y-2">
-        <h2 className="card-title">Download {series?.title}</h2>
-        <div className="card-actions">
-          {series?.download_links?.length === 0 && (
-            <h1 className="font-semibold text-center text-neutral-content">
-              Link Download Belum Tersedia...
-            </h1>
-          )}
-
-          {series?.download_links?.map((link, index) => (
-            <Link
-              href={link.link ?? "#"}
-              target="_blank"
-              className="btn btn-xs md:btn-sm"
-              key={index}
-            >
-              {link.text}
-            </Link>
-          ))}
-        </div>
+              Download
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
