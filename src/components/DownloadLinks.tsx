@@ -29,14 +29,13 @@ export default function DownloadLinks({ movie, series }: IProps) {
               </h1>
             ) : (
               <>
-                <div className="flex flex-wrap justify-center">
+                <div className="flex flex-wrap justify-start md:justify-center">
                   {movie?.download_links?.map((link, index) => (
                     <Link
                       key={index}
                       href={link.link ?? "#"}
                       target="_blank"
-                      className="btn btn-primary btn-xs md:btn-sm mx-1 my-1"
-                      style={{ backgroundColor: "white", color: "black" }}
+                      className="btn btn-xs md:btn-sm mx-1 my-1"
                     >
                       <HiDownload className="mr-1" /> {link.text}
                     </Link>
@@ -46,14 +45,13 @@ export default function DownloadLinks({ movie, series }: IProps) {
                       key={index}
                       href={link.link ?? "#"}
                       target="_blank"
-                      className="btn btn-primary btn-xs md:btn-sm mx-1 my-1"
-                      style={{ backgroundColor: "white", color: "black" }}
+                      className="btn btn-xs md:btn-sm mx-1 my-1"
                     >
                       <HiDownload className="mr-1" /> {link.text}
                     </Link>
                   ))}
                 </div>
-                <div className="flex flex-wrap justify-center">
+                <div className="flex flex-wrap justify-end">
                   <button
                     onClick={toggleDownloadButtons}
                     className="btn btn-primary btn-xs md:btn-sm mx-1 my-1"
@@ -65,7 +63,7 @@ export default function DownloadLinks({ movie, series }: IProps) {
             )}
           </>
         ) : (
-          <div className="flex flex-wrap justify-center">
+          <div className="flex flex-wrap justify-end">
             <button
               onClick={toggleDownloadButtons}
               className="btn btn-primary btn-xs md:btn-sm mx-1 my-1"
