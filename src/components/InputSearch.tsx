@@ -44,6 +44,7 @@ export default function SearchBar({ btnColor }: IProps) {
           placeholder="Cari..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && handleAction(SearchType.search)}
         />
       </div>
       <div className="indicator">
