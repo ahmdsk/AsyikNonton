@@ -81,7 +81,7 @@ export default function CardMovie({ movies }: { movies: Array<IMovie> }) {
             </button>
           )}
           <Link
-            href={`detail/${movie.movieId?.replace("/", "")}` ?? "#"}
+            href={`/detail/${movie.movieId?.replace("/", "")}` ?? "#"}
             className="btn btn-neutral btn-sm"
           >
             Tonton
