@@ -4,7 +4,7 @@ const SiteConfig = {
     siteURl: siteUrl,
     siteName: "AsyikNonton",
     apiURL: `${siteUrl}/api`,
-    scrapUrl: "https://ngefilm21.lat",
+    scrapUrl: "https://ngefilm21.ink",
     socials: {
         repo: "https://github.com/ahmdsk/AsyikNonton",
         github: "https://github.com/ahmdsk",
